@@ -19,14 +19,13 @@ require('./config/pgConfig');
 //------------------//------------------//------------------//------------------
 
 const authRoutes = require('./routes/authRoutes.js')
+const eventosController = require('./routes/eventosRoutes.js')
 
 //------------------//------------------//------------------//------------------//------------------
 
 // Rutas de la API
 app.use('/auth', authRoutes);
-
-
-
+app.use('/events', eventosController);
 
 //------------------//------------------//------------------//------------------//------------------//------------------
 
