@@ -1,10 +1,6 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import cors from 'cors';
-import auth from './routes/authRoutes.js'; // Ensure the correct file extension
-
-dotenv.config(); // Load environment variables
-
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -18,10 +14,21 @@ app.use(cors({
 // Middleware para parsear JSON
 app.use(express.json());
 
-import './config/pgConfig.js'; // Ensure this file is also using ES module syntax
+require('./config/pgConfig');
+
+//------------------//------------------//------------------//------------------
+
+const authRoutes = require('./routes/authRoutes.js')
+
+//------------------//------------------//------------------//------------------//------------------
 
 // Rutas de la API
-app.use('/auth', auth);
+app.use('/auth', authRoutes);
+
+
+
+
+//------------------//------------------//------------------//------------------//------------------//------------------
 
 // Ruta de prueba para verificar que el servidor está funcionando
 app.get('/', (req, res) => {

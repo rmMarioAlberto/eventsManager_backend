@@ -3,8 +3,12 @@ const db = require('../config/pgConfig');
 exports.login = (req, res) => {
     const { correo, contra } = req.body || {};
 
-    if (!correo || !contra) {
+    if (!correo) {
         return res.status(400).json({ message: 'Todos los datos son necesarios' });
+    }
+
+    if (!contra) {
+        return res.status(400).json({message: 'Todos los datos son necesarios'})
     }
 
     const query = 'SELECT * FROM eventsmanager.user WHERE correo = $1 AND contra = $2';
