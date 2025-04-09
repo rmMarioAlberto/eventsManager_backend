@@ -19,7 +19,7 @@ exports.login = (req, res) => {
         }
 
         if (results.rowCount === 0) {
-            return res.status(401).json({ message: 'Credenciales inválidas' }); // 👈 Mejor feedback
+            return res.status(401).json({ message: 'Credenciales inválidas' }); 
         }
 
         return res.status(200).json({ message: 'Login exitoso', user: results.rows[0] });
@@ -41,7 +41,7 @@ exports.registro = (req, res) => {
             return res.status(400).json({message : 'Error en el servidor'})
         }
 
-        if (results.rowCount > 1) {
+        if (results.rowCount > 0) {
             return res.status(401).json({message : 'Correo ya registrado en el sistema'})
         }
 
