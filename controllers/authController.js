@@ -34,13 +34,25 @@ exports.registro = (req, res) => {
         return res.status(400).json({ message: 'Todos los datos son necesarios' });
     }
 
-    const query = 'INSERT INTO eventsmanager.user (nombre, correo, contra) VALUES ($1, $2, $3)';
-
-    db.query(query, [nombreUser, correo, contra], (err, results) => {
+    const queryCheck = 'SELECT * FROM eventsmanager.user WHERE correo = $1'
+    
+    db.query(queryCheck, [correo], (err, results) => {
         if (err) {
-            return res.status(400).json({ message: 'Error en el servidor', err });
+            return res.status(400).json({message : 'Error en el servidor'})
         }
 
-        return res.status(200).json({ message: 'Usuario creado correctamente' });
-    });
+        if (results.rowCount > 1) {
+            return res.status(401).json({message : 'Correo ya registrado en el sistema'})
+        }
+
+        const query = 'INSERT INTO eventsmanager.user (nombre, correo, contra) VALUES ($1, $2, $3)';
+
+        db.query(query, [nombreUser, correo, contra], (err, results) => {
+            if (err) {
+                return res.status(400).json({ message: 'Error en el servidor', err });
+            }
+    
+            return res.status(200).json({ message: 'Usuario creado correctamente' });
+        });
+    })
 };
