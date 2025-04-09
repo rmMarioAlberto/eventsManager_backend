@@ -61,16 +61,17 @@ exports.deleteEvent = (req, res) => {
 };
 
 exports.updateEvent = (req, res) => {
-    const { nombre, fecha, asistentes, latitud, longitud, idEvent } = req.body || {};
+    const { nombre, descripcion, fecha, asistentes, latitud, longitud, idEvent } = req.body || {};
 
-    if (!nombre || !fecha || !asistentes || !latitud || !longitud || !idEvent) {
+    if (!nombre || !descripcion || !fecha || !asistentes || !latitud || !longitud || !idEvent) {
         return res.status(400).json({ message: 'Todos los datos son necesarios' });
     }
 
-    const query = 'UPDATE eventsmanager.evento SET nombre = $1, fecha = $2, asistentes = $3, latitud = $4, longitud = $5 WHERE id = $6';
+    const query = 'UPDATE eventsmanager.evento SET nombre = $1, descripcion = $2, fecha = $3, asistentes = $4, latitud = $5, longitud = $6 WHERE id = $7';
 
-    db.query(query, [nombre, fecha, asistentes, latitud, longitud, idEvent], (err, results ) => {
+    db.query(query, [nombre, descripcion, fecha, asistentes, latitud, longitud, idEvent], (err, results) => {
         if (err) {
+            console.error('Error al actualizar evento:', err);
             return res.status(500).json({ message: 'Error en el servidor' });
         }
 
@@ -83,15 +84,17 @@ exports.updateEvent = (req, res) => {
 };
 
 exports.addEvent = (req, res) => {
-    const { nombre, fecha, asistentes, latitud, longitud } = req.body || {};
+    const { nombre, descripcion, fecha, asistentes, latitud, longitud } = req.body || {};
 
-    if (!nombre || !fecha || !asistentes || !latitud || !longitud) {
+    if (!nombre || !descripcion || !fecha || !asistentes || !latitud || !longitud) {
         return res.status(400).json({ message: 'Todos los datos son necesarios' });
     }
 
-    const query = 'INSERT INTO eventsmanager.evento (nombre, fecha, asistentes, latitud, longitud) VALUES ($1, $2, $3, $4, $5)';
-    db.query(query, [nombre, fecha, asistentes, latitud, longitud], (err, results) => {
+    const query = 'INSERT INTO eventsmanager.evento (nombre, descripcion, fecha, asistentes, latitud, longitud) VALUES ($1, $2, $3, $4, $5, $6)';
+    
+    db.query(query, [nombre, descripcion, fecha, asistentes, latitud, longitud], (err, results) => {
         if (err) {
+            console.error('Error al crear evento:', err);
             return res.status(500).json({ message: 'Error en el servidor' });
         }
 
